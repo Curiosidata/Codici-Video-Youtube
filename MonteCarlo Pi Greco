@@ -1,0 +1,37 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import time as t
+
+tic = t.time()
+
+# Numero di punti della simulazione
+n = 10000000
+
+# Vettore coordinate x e y dei punti casuali
+x = np.random.rand(n)
+y = np.random.rand(n)
+Pi_Greco = np.zeros(n)
+
+# Vettore distanza
+d = (x**2 + y**2)**(1/2)
+
+Ps = 0
+Pq = 0
+
+for i in range(n):
+    Pq += 1
+    if d[i] < 1:
+        Ps += 1
+    
+    Pi_Greco[i] = 4*(Ps/Pq)
+
+Pi_Greco_Reale = np.ones(n)*np.pi
+
+plt.figure(1)
+plt.plot(Pi_Greco)
+plt.plot(Pi_Greco_Reale)
+
+toc = t.time()
+
+print('Valore di Pi Greco:\n',4*Ps/Pq)
+print('Elapsed time:\n',round(toc-tic,3))

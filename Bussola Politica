@@ -1,0 +1,25 @@
+import pandas as pd
+
+# Definisco le colonne
+col = ['Partito','Sin-Des','Lib-Aut']
+
+P = ['Lega','PD','M5S','FdI','FI','IV','LeU']
+# 0 -> Sinistra; 1 -> Destra
+# 0 -> Liberismo; 1 -> Autoritarismo
+
+sd = [0.8, 0.3, 0.4, 0.9, 0.6, 0.5, 0.1]
+la = [0.2, 0.5, 0.9, 0.7, 0.3, 0.1, 0.8]
+
+# Definisco il dataframe
+df = pd.DataFrame(columns = col)
+
+df['Partito'] = P
+df['Sin-Des'] = sd
+df['Lib-Aut'] = la
+
+print(df)
+
+ax = df.plot('Sin-Des','Lib-Aut',kind='scatter')
+
+for i in range(df.shape[0]):
+    ax.annotate(df.Partito[i],(sd[i],la[i]))

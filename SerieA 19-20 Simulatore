@@ -1,0 +1,199 @@
+import pandas as pd
+import numpy as np
+
+# Numero delle simulazioni
+n = 10000
+
+Vj = 0
+Vl = 0
+Vi = 0
+Va = 0
+
+Pj = np.zeros(n)
+Pl = np.zeros(n)
+Pi = np.zeros(n)
+Pa = np.zeros(n)
+
+for j in range(n):
+    Squadre = ['Juventus','Lazio','Inter','Atalanta']
+    P = [63,62,54,48]
+
+    col = ['Squadre','P']
+    C = pd.DataFrame(columns=col)
+
+    C['P'] = P
+    C['Squadre'] = Squadre
+    
+    GareJ = [7,-1,8,8,6,5,-1,7,-1,7,8,7,5]
+    GareL = [-1,-1,5,7,7,8,8,7,-1,8,7,8,3]
+    GareI = [3,8,5,8,7,5,7,8,3,5,7,3,-1]
+    GareA = [-1,7,7,4,6,7,-1,7,6,7,3,5,-1]
+
+    RisJ = np.random.rand(len(GareJ))*10
+    RisL = np.random.rand(len(GareJ))*10
+    RisI = np.random.rand(len(GareJ))*10
+    RisA = np.random.rand(len(GareJ))*10
+
+    for i in range(len(GareJ)):
+        
+        #Juve
+        if RisJ[i] == -1:
+            pass
+        elif RisJ[i] < GareJ[i]:
+            P[0] += 3
+        elif RisJ[i] < (GareJ[i] + 0.5*(10-GareJ[i])):
+            P[0] += 1
+
+        #Lazio
+        if RisL[i] == -1:
+            pass
+        elif RisL[i] < GareL[i]:
+            P[1] += 3
+        elif RisL[i] < (GareL[i] + 0.5*(10-GareL[i])):
+            P[1] += 1
+
+        #Inter
+        if RisI[i] == -1:
+            pass
+        elif RisI[i] < GareI[i]:
+            P[2] += 3
+        elif RisI[i] < (GareI[i] + 0.5*(10-GareI[i])):
+            P[2] += 1
+            
+        #Atalanta
+        if RisA[i] == -1:
+            pass
+        elif RisA[i] < GareA[i]:
+            P[3] += 3
+        elif RisA[i] < (GareA[i] + 0.5*(10-GareA[i])):
+            P[3] += 1
+
+
+    # Juve-Lazio 5-2.5-2.5
+    RisJL = np.random.rand()*10
+    if RisJL < 5:
+        P[0] += 3
+        
+    elif RisJL < 7.5:
+        P[0] += 1
+        P[1] += 1
+    else:
+        P[1] += 3
+
+    # Atalanta-Lazio 3-3-4
+    RisAL = np.random.rand()*10
+    if RisAL < 3:
+        P[3] += 3
+    elif RisAL < 6:
+        P[3] += 1
+        P[1] += 1
+    else:
+        P[1] += 3
+        
+    # Juventus-Atalanta 5-2.5-2.5
+    RisJA = np.random.rand()*10
+    if RisJA < 5:
+        P[0] += 3
+    elif RisJA < 7.5:
+        P[0] += 1
+        P[3] += 1
+    else:
+        P[3] += 3
+        
+    # Atalanta-Inter 4-3-3
+    RisAI = np.random.rand()*10
+    if RisAI < 4:
+        P[3] += 3
+    elif RisAI < 7:
+        P[3] += 1
+        P[2] += 1
+    else:
+        P[2] += 3
+
+    # Aggiornare la classifica
+    Cf = pd.DataFrame(columns=col)
+    Cf['P'] = P
+    Cf['Squadre'] = Squadre
+    Cf = Cf.sort_values(by='P',ascending=False)
+    Cf = Cf.reset_index(drop=True)
+    
+    if Cf['P'][0] == Cf['P'][1]:
+        
+        if 'Juventus' in (Cf['Squadre'][0],Cf['Squadre'][1]):
+            # Parità Juve-Lazio
+            if 'Lazio' in (Cf['Squadre'][0],Cf['Squadre'][1]):
+                if RisJL > 2:
+                    Vl += 1
+                else:
+                    Vj += 1
+                
+            # Parità Juve-Inter
+            if 'Inter' in (Cf['Squadre'][0],Cf['Squadre'][1]):
+                Vj += 1
+                
+            # Parità Juve-Atalanta
+            if 'Atalanta' in (Cf['Squadre'][0],Cf['Squadre'][1]):
+                Vj += 1
+                
+        elif 'Lazio' in (Cf['Squadre'][0],Cf['Squadre'][1]):
+            # Parità Lazio-Inter
+            if 'Inter' in (Cf['Squadre'][0],Cf['Squadre'][1]):
+                Vl += 1
+                
+            # Parità Lazio-Atalanta
+            if 'Atalanta' in (Cf['Squadre'][0],Cf['Squadre'][1]):
+                if RisAL < 4.5:
+                    Va += 1
+                else:
+                    Vl += 1
+        else:
+            # Parità Inter-Atalanta
+                if RisAI < 7:
+                    Va += 1
+                else:
+                    Vi += 1
+    
+    elif Cf['Squadre'][0] == 'Juventus':
+        Vj += 1
+    elif Cf['Squadre'][0] == 'Lazio':
+        Vl += 1
+    elif Cf['Squadre'][0] == 'Inter':
+        Vi += 1
+    elif Cf['Squadre'][0] == 'Atalanta':
+        Va += 1
+
+    Pj[j] = P[0]
+    Pl[j] = P[1]
+    Pi[j] = P[2]
+    Pa[j] = P[3]
+  
+print('Vittoria Juve\n',Vj*100/n)
+print('Vittoria Lazio\n',Vl*100/n)
+print('Vittoria Inter\n',Vi*100/n)
+print('Vittoria Atalanta\n',Va*100/n)
+
+import matplotlib.pyplot as plt
+
+plt.figure(1)
+plt.title('Punti Juventus')
+plt.hist(Pj,60)
+plt.xlim(50,110)
+plt.show()
+
+plt.figure(2)
+plt.title('Punti Lazio')
+plt.hist(Pl,60)
+plt.xlim(50,110)
+plt.show()
+
+plt.figure(3)
+plt.title('Punti Inter')
+plt.hist(Pi,60)
+plt.xlim(50,110)
+plt.show()
+
+plt.figure(4)
+plt.title('Punti Atalanta')
+plt.hist(Pa,60)
+plt.xlim(50,110)
+plt.show()

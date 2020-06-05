@@ -1,0 +1,30 @@
+import numpy as np
+
+#Numero di tiri
+n = 100
+
+def Dado(n):
+    return np.random.randint(1, high=7, size=n)
+
+def Dado_Truccato(n):
+    facce = [4,5,5,6,6,6]
+    pos = np.random.randint(1, high=7, size=n)
+    out = np.zeros(n,dtype=int)
+    for i in range(n):
+        out[i] = facce[pos[i]-1]
+    return out
+
+#Dado1
+d1 = Dado(n)
+#Dado2
+d2 = Dado_Truccato(n)
+
+#Media Dado1
+print(np.mean(d1))
+#Media Dado2
+print(np.mean(d2))
+
+#StDev Dado1
+print(np.std(d1,ddof=1))
+#StDev Dado2
+print(np.std(d2,ddof=1))

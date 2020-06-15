@@ -115,6 +115,8 @@ print('Vittoria RBL\n',Vrb*100/n)
 
 import matplotlib.pyplot as plt
 
+# Istogrammi punti
+
 plt.figure(1)
 plt.title('Punti Bayern')
 plt.hist(Pbm,35)
@@ -131,4 +133,26 @@ plt.figure(3)
 plt.title('Punti RBL')
 plt.hist(Prb,35)
 plt.xlim(50,90)
+plt.show()
+
+# Grafici andamenti percentuali
+
+bay = [94.71,98.74,99.74]
+bor = [4.13,1.24,0.26]
+lip = [1.16,0.02,0]
+g = [1,2,3]
+
+plt.figure(1)
+plt.title('Bayern Monaco')
+plt.plot(g,bay,c='r')
+plt.show()
+
+plt.figure(1)
+plt.title('Borussia Dortmund')
+plt.plot(g,bor,c='y')
+plt.show()
+
+plt.figure(1)
+plt.title('Red Bull Lipsia')
+plt.plot(g,lip,c='b')
 plt.show()

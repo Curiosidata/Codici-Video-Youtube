@@ -1,0 +1,19 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# f(x) = sin(x)
+f = lambda x: np.sin(x)
+
+xi = 0
+xf = 2*np.pi
+n = 100
+x = np.linspace(xi,xf,n)
+
+y = f(x)
+
+plt.figure(1)
+plt.title('f(x)')
+plt.plot(x,y)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()

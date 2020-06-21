@@ -1,0 +1,31 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+C = 0.01
+R = 10
+tau = R*C
+V0 = 1
+t = np.linspace(0,1,100)
+
+# v' = -v/tau
+
+f = lambda a,b: -a/b
+
+v = np.zeros(len(t))
+v[0] = V0
+for i in range(1,len(t)):
+    v[i] = v[i-1] + f(v[i-1],tau)*(t[i]-t[i-1])
+
+plt.figure(1)
+plt.title('Scarica di un condensatore')
+plt.xlabel('Tempo')
+plt.ylabel('Tensione sul condensatore')
+plt.plot(t,v)
+plt.show()
+
+plt.figure(2)
+plt.title('Corrente')
+plt.xlabel('Tempo')
+plt.ylabel('Corrente')
+plt.plot(t,v/R)
+plt.show()

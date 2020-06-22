@@ -28,3 +28,21 @@ print(np.mean(d2))
 print(np.std(d1,ddof=1))
 #StDev Dado2
 print(np.std(d2,ddof=1))
+
+
+#Calcolo dell'indice F
+d1 = Dado(n)
+d2 = Dado_Truccato(n)
+
+m1 = np.mean(d1)
+m2 = np.mean(d2)
+
+v1 = np.var(d1,ddof=1)
+v2 = np.var(d2,ddof=1)
+
+mdm = (m1+m2)/2
+vm = (v1+v2)/2
+vdm = (m1-mdm)**2 + (m2-mdm)**2
+
+F = n*vdm/vm
+print(F)

@@ -197,3 +197,47 @@ plt.title('Punti Atalanta')
 plt.hist(Pa,60)
 plt.xlim(50,110)
 plt.show()
+
+# Grafici andamenti percentuali
+
+juve = [60.33,61.11,76.74]
+lazio = [38.89,37.57,22.38]
+inter = [0.71,1.26,0.8]
+ata = [0.07,0.06,0.09]
+g = [1,2,3]
+
+
+plt.figure(1)
+plt.title('Tutte le squadre')
+plt.plot(g,juve,label='Juve',c='k')
+plt.plot(g,lazio,label='Lazio',c='c')
+plt.plot(g,inter,label='Inter',c='b')
+plt.plot(g,ata,label='Atalanta',c='y')
+plt.legend(loc="best")
+plt.show()
+
+plt.figure(2)
+plt.title('Juventus')
+plt.plot(g,juve,c='k')
+plt.show()
+
+plt.figure(3)
+plt.title('Lazio')
+plt.plot(g,lazio,c='c')
+plt.show()
+
+plt.figure(4)
+plt.title('Inter')
+plt.plot(g,inter,c='b')
+plt.show()
+
+plt.figure(5)
+plt.title('Atalanta')
+plt.plot(g,ata,c='y')
+plt.show()
+
+#Converti in quote
+print(n/Vj)
+print(n/Vl)
+print(n/Vi)
+print(n/Va)

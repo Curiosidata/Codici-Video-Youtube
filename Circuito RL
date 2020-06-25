@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+L = 1
+R = 10
+tau = L/R
+I0 = 1
+t = np.linspace(0,1,1000)
+
+# i' = -i/tau
+f = lambda a,b: -a/b
+
+I = np.zeros(len(t))
+I[0] = I0
+for i in range(1,len(t)):
+    I[i] = I[i-1] + f(I[i-1],tau)*(t[i]-t[i-1])
+
+plt.figure(1)
+plt.title('Scarica di un induttore')
+plt.xlabel('Tempo')
+plt.ylabel('Corrente')
+plt.plot(t,I)
+plt.show()
+
+plt.figure(2)
+plt.title('Tensione sull induttore')
+plt.xlabel('Tempo')
+plt.ylabel('Tensione')
+plt.plot(t,R*I)
+plt.show()

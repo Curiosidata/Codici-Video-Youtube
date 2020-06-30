@@ -1,0 +1,41 @@
+import numpy as np
+
+'''
+Blu = 0.7
+Rosso = 0.8
+Giallo = 0.6
+Verde = 0.4
+Viola = 0.2
+'''
+# A winning prob.
+Prob = [0.7,0.8,0.6,0.4,0.2]
+L = len(Prob)
+
+# N° Simulazioni
+n = 100000
+
+# Partiti
+A = 0
+B = 0
+
+# 1 -> A
+# 0 -> B
+
+Table = np.zeros(n)
+
+for j in range(n):
+    Res = np.zeros(L)
+    
+    for i in range(L):
+        if Prob[i] > np.random.rand(1):
+            Res[i] = 1
+            
+    Table[j] = sum(Res)
+    
+    if Table[j] > 2:
+        A = A+1
+    else:
+        B = B+1
+        
+print('Vittoria A:\n',A/n)
+print('Vittoria B:\n',B/n)

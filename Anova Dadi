@@ -48,7 +48,6 @@ F = n*vdm/vm
 print(F)
 
 from scipy.stats import f, f_oneway
-import matplotlib.pyplot as plt
 
 gdl_num = 1
 gdl_den = 2*(n-1)

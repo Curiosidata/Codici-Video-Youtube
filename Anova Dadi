@@ -46,3 +46,17 @@ vdm = (m1-mdm)**2 + (m2-mdm)**2
 
 F = n*vdm/vm
 print(F)
+
+from scipy.stats import f, f_oneway
+import matplotlib.pyplot as plt
+
+gdl_num = 1
+gdl_den = 2*(n-1)
+alpha = 0.05
+
+f.ppf(1-alpha, gdl_num, gdl_den)
+
+p = 1-f.cdf(F, gdl_num, gdl_den)
+print(p)
+
+f_oneway(d1,d2)

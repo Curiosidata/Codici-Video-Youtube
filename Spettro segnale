@@ -1,0 +1,23 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fftpack import fft, fftfreq
+
+#f(t) = 5 sin(2pi*2*t)
+f = lambda t: 5*np.sin(2*np.pi*2*t) + 3*np.sin(2*np.pi*3*t) 
+t0,t1,n = 0,5,500
+T = (t1-t0)/n
+t = np.linspace(t0,t1,n)
+y = f(t)
+yf = fft(y)
+yfl = 2*abs(yf[:n//2]/n)
+xf = fftfreq(n,T)
+xfl = xf[:n//2]
+
+plt.figure(1)
+plt.plot(xfl,yfl)
+plt.xlim(0,5)
+
+plt.figure(2)
+plt.magnitude_spectrum(2*y,Fs=1/T)
+plt.xlim(0,5)
+plt.show()

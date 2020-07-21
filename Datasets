@@ -1,0 +1,17 @@
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+data = load_iris()
+
+X = data.data
+y = data.target
+
+plt.figure(1)
+plt.scatter(X[:,2],X[:,3],c=y)
+plt.colorbar()
+plt.show()
+
+import pandas as pd
+name = '20200126_regionali_preferenze_d.csv'
+path = '/Users/andre/Documents/CuriosiData/Data/'
+df = pd.read_csv(path+name,sep=';',engine='python')
+df.head()

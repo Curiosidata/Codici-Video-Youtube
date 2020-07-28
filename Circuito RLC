@@ -1,0 +1,28 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+L = 1
+R = 5
+C = 100
+I0 = 1
+Ip0 = 0
+t = np.linspace(0,10,1000)
+
+# ipp = (-r/l)ip + (-c/l)i
+f = lambda r,l,c,i,ip: (-r/l)*ip + (-c/l)*i
+
+I = np.zeros(len(t))
+Ip = np.zeros(len(t))
+I[0] = I0
+Ip[0] = Ip0
+
+for i in range(1,len(t)):
+    I[i] = I[i-1] + Ip[i-1]*(t[i]-t[i-1])
+    Ip[i] = Ip[i-1] + f(R,L,C,I[i-1],Ip[i-1])*(t[i]-t[i-1])
+    
+plt.figure(1)
+plt.title('Corrente del circuito RLC')
+plt.xlabel('Tempo')
+plt.ylabel('Corrente')
+plt.plot(t,I)
+plt.show()

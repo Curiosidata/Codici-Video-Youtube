@@ -1,0 +1,28 @@
+from sklearn.datasets import load_diabetes
+data = load_diabetes()
+
+#print(data)
+
+import pandas as pd
+df = pd.DataFrame(data.data,columns=data.feature_names)
+df['target'] = data.target
+
+df.head(1)
+
+from scipy.stats import f_oneway
+f_oneway(df[df['sex']<0],df[df['sex']>0])
+
+import matplotlib.pyplot as plt
+df = pd.DataFrame(data.data,columns=data.feature_names)
+df.boxplot()
+plt.show()
+
+df['target'] = data.target
+df.boxplot(column=['target'], by='sex')
+plt.suptitle('')
+plt.show()
+
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+mod = ols('target ~ sex',data = df).fit()
+print(mod.summary())

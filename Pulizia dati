@@ -1,0 +1,41 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+path = r"\Users\andre\Documents\CuriosiData\Data\Test.csv"
+df = pd.read_csv(path,sep=';')
+
+#Visualizza testa-coda
+df.head()
+df.tail()
+
+#Correggi decimale e visualizza boxplot
+df = pd.read_csv(path,sep=';',decimal=',')
+df.boxplot()
+
+#Visualizza istogramma
+df.hist()
+plt.show()
+
+#Visualizza i dati di f3:
+df.f3.value_counts()
+
+#Correggi Hallo con Hello
+df = df.replace("Hallo","Hello")
+df
+
+#Verifica se ci sono NaN
+df.isnull()
+
+#In quale riga ci sono?
+df.isnull().sum()
+
+# Riempe i NaN
+#df.fillna(0)
+# oppure
+# Elimina le righe NaN
+df.dropna()
+
+# Elimina colonna f1
+df = df.drop('f1',axis=1)
+df

@@ -40,6 +40,6 @@ df.dropna()
 df = df.drop('f1',axis=1)
 df
 
-
+# Correggi il dato numerico
 df = pd.read_csv(path,sep=';',decimal=',')
 df.loc[df['f1'] > 1,'f1'] = 1

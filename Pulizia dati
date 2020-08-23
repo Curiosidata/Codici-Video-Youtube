@@ -39,3 +39,7 @@ df.dropna()
 # Elimina colonna f1
 df = df.drop('f1',axis=1)
 df
+
+
+df = pd.read_csv(path,sep=';',decimal=',')
+df.loc[df['f1'] > 1,'f1'] = 1

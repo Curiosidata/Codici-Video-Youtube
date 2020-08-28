@@ -1,0 +1,32 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def divergetest(c, vallim, itlim):
+    z = c
+    i = 0
+    while i < itlim and np.sqrt((z.real)**2 + (z.imag)**2)< vallim:
+        z = z**2 + c
+        i += 1
+    return i
+
+def plotter(n, vallim, itlim, xi,xs,yi,ys):
+    image = np.full((n,n),0)
+    Xp = np.linspace(xi,xs,n)
+    Yp = np.linspace(yi,ys,n)
+    for x in range(n):
+        for y in range(n):
+            image[y][x] = divergetest(complex(Xp[x],Yp[y]),vallim, itlim)
+    return image
+
+n = 1000
+xi,xs,yi,ys = -3,1,-2,2
+vallim = 5
+itlim = 30
+mandelbrot = plotter(n,vallim,itlim,xi,xs,yi,ys)
+
+plt.figure(1,figsize=[8,8])
+plt.title('Mandelbrot Set')
+plt.imshow(mandelbrot,extent=[-3,1,-2,2])
+plt.xlabel('Real')
+plt.ylabel('Complex')
+plt.show()

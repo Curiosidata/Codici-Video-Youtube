@@ -1,0 +1,71 @@
+import numpy as np
+import pandas as pd
+
+name = ['Bayern','Real Madrid','Man City','Liverpool','Chelsea','Dortmund','Juventus','PSG',
+        'Atletico','Gladbach','FC Porto','Atalanta','Siviglia','Lazio','Barcellona','RBL']
+team = pd.DataFrame(name, columns=['Nome'])
+team['Code'] = np.arange(0,16)
+team['Group'] = [0,1,2,3,4,5,6,7,0,1,2,3,4,5,6,7]
+#0 Germany - #1 Spain - #2 England - #3 Italy - #4 France - #5 Portugal
+team['Nation'] = [0,1,2,2,2,0,3,4,1,0,6,3,1,3,1,0]
+
+# Sorteggio
+df = pd.DataFrame(np.zeros((16,16)), columns = np.arange(0,16))
+# Numero di test
+uu = 10000
+
+for k in np.arange(0,uu):
+    match = pd.DataFrame([],columns=['Squadre'])
+    teams = team
+    j=0
+    while j != 8:
+        # Sorteggia squadra 1
+        a1 = teams.loc[np.random.randint(0,(8-j))]
+        
+        # Ora bisogna selezionare le possibili avversarie da sorteggiare
+        # Quante nazioni sono rimaste
+        n = teams['Nation'].value_counts()
+        # Se sono rimaste n squadre di una nazione su 2n squadre l'accoppiata è già decisa
+        if max(n) == (2*len(teams)):
+            if a1['Nation'] != n.idxmax():
+                # Se la squadra scelta random è di quella nazione
+                oppo = teams[teams['Nation'] == n.idxmax()]
+                # Le avversarie sono le altre
+            else:
+                # Altrimenti l'opposto
+                oppo = teams[teams['Nation'] != n.idxmax()]
+        else:
+            # I possibili avversari sono quelli del secondo turno, diversa nazione e diverso gruppo
+            oppo = teams[teams['Code'] > (7)]
+            oppo = oppo[oppo['Nation'] != a1['Nation']]
+            oppo = oppo[oppo['Group'] != a1['Group']].reset_index(drop=True)
+        if len(oppo) == 0:
+            j = 8
+            # Se non ci sono più avversari esci dal ciclo
+        else:
+            # Sorteggia squadra 2
+            a2 = oppo.loc[np.random.randint(0,len(oppo))]
+            b = [a1['Code'],a2['Code']]
+            match[j] = b
+            # Togli dalle squadre restanti quelle sorteggiate
+            teams = teams[((teams['Code'] != a1['Code']) & (teams['Code'] != a2['Code']))]
+            teams = teams.reset_index(drop=True)
+            j = j+1
+            # Sorteggio completato
+            if len(teams) == 0:
+                match = match.drop('Squadre',axis=1)
+                for i in np.arange(0,16):
+                    #teste di serie
+                    if i<8:
+                        s = match.loc[1][match.loc[0] == i]
+                        df[i][s]=df[i][s]+1
+                    #non teste di serie
+                    else:
+                        s = match.loc[0][match.loc[1] == i]
+                        df[i][s]=df[i][s]+1
+
+pd.set_option('display.max_columns', 16)
+tot = df[1].sum()
+df2 = df/tot
+df2.round(2)
+print(df2)

@@ -1,0 +1,21 @@
+from sklearn.datasets import load_diabetes
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+data = load_diabetes()
+X = data.data
+y = data.target
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=10,random_state=1)
+model = LinearRegression()
+model.fit(X_train,y_train)
+score = model.score(X_test,y_test)
+print('Lo score è:\n',score,'\n')
+
+yp_test = model.predict(X_test)
+
+print('Ypred\t Yreal')
+for i in range(len(yp_test)):
+    print(round(yp_test[i],1),'\t',y_test[i])
+    
+print('\nCoef\tValue')
+for j in range(len(model.coef_)):
+    print(data.feature_names[j],'\t',int(model.coef_[j]))
